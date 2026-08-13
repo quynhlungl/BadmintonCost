@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
+<html lang="vi"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chia Tiền Cầu Lông</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&amp;family=Oswald:wght@500;600;700&amp;display=swap" rel="stylesheet">
 <style>
   :root{
     --court-green: #1F5C4A;
@@ -26,7 +24,7 @@
       linear-gradient(180deg, var(--court-green-dark) 0%, var(--court-green) 55%, var(--court-green-dark) 100%);
     color:var(--ink);
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content:center;
     padding:32px 16px;
     position:relative;
@@ -43,31 +41,25 @@
     pointer-events:none;
   }
   .center-line{
-    position:absolute;
+    position:fixed;
     top:0; bottom:0; left:50%;
     width:2px;
     background:rgba(246,244,236,0.12);
     transform:translateX(-50%);
     pointer-events:none;
   }
-  .net-line{
-    position:absolute;
-    left:0; right:0; top:50%;
-    height:0;
-    border-top:2px dashed rgba(231,184,78,0.18);
-    transform:translateY(-50%);
-    pointer-events:none;
-  }
+
   .card{
     position:relative;
     width:100%;
-    max-width:440px;
+    max-width:460px;
     background:var(--shuttle-cream);
     border-radius:20px;
     box-shadow:0 30px 60px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06);
     overflow:hidden;
     z-index:1;
   }
+
   .header{
     background:var(--court-green);
     padding:28px 28px 40px;
@@ -111,247 +103,920 @@
     font-size:13px;
     color:rgba(246,244,236,0.75);
   }
-  .body{
-    padding:28px;
-  }
-  .field{
-    margin-bottom:26px;
-  }
-  .field label{
-    display:flex;
-    justify-content:space-between;
-    align-items:baseline;
-    font-size:13px;
-    font-weight:600;
-    color:var(--court-green-dark);
-    margin-bottom:6px;
-  }
-  .field label .hint{
-    font-weight:400;
-    font-size:11px;
-    color:var(--muted);
-  }
-  .input-wrap{
-    position:relative;
+
+  .body{ padding:24px; }
+
+  .section-title{
     display:flex;
     align-items:center;
+    gap:8px;
+    font-family:'Oswald', sans-serif;
+    font-size:15px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    color:var(--court-green-dark);
+    margin:0 0 14px;
   }
-  .input-wrap .unit{
-    position:absolute;
-    right:14px;
-    font-size:13px;
-    color:var(--muted);
-    font-weight:500;
-    pointer-events:none;
+  .section-title .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--net-gold); flex:none;
   }
-  input[type=number], input[type=text]{
+
+  /* ---- Day card ---- */
+  .day-card{
+    background:#fff;
+    border:1px solid #E1E9E3;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 4px 14px rgba(18,59,48,0.05);
+  }
+  .day-head{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:12px;
+  }
+  .day-badge{
+    flex:none;
+    border-radius:8px;
+    background:var(--court-green);
+    color:var(--line-white);
+    font-family:'Oswald',sans-serif;
+    font-weight:600;font-size:13px;
+    padding:6px 11px;
+    white-space:nowrap;
+  }
+  /* Loại cầu */
+  .type-row{
+    display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px;
+  }
+  .type-row .t-name{ flex:1 1 40%;min-width:0; }
+  .type-row .t-tube{ flex:1 1 40%;min-width:0; }
+  .t-pertrai{ flex:1 1 100%;font-size:11.5px;color:var(--muted);font-weight:600; }
+  .del-type{
+    width:30px;height:30px;flex:none;border:none;border-radius:8px;
+    background:#F4E3DE;color:#B4462F;font-size:17px;line-height:1;cursor:pointer;
+    transition:background .15s ease;
+  }
+  .del-type:hover{ background:#EBcfC7; }
+  .add-type-btn{
+    width:100%;padding:9px;border:1.5px dashed var(--court-green);border-radius:10px;
+    background:rgba(31,92,74,0.05);color:var(--court-green-dark);
+    font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-top:2px;
+    transition:background .15s ease;
+  }
+  .add-type-btn:hover{ background:rgba(31,92,74,0.12); }
+  .birdies-box{ display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:5px; }
+  .bird-label{ font-size:12px;color:var(--muted);display:block;margin-bottom:3px;font-weight:600; }
+  .day-date{
+    flex:1;
+    padding:8px 10px !important;
+    font-size:14px !important;
+    font-weight:600 !important;
+    color:var(--court-green-dark);
+  }
+  .del-day{
+    width:30px;height:30px;flex:none;
+    border:none;border-radius:8px;
+    background:#F4E3DE;color:#B4462F;
+    font-size:18px;line-height:1;cursor:pointer;
+    transition:background .15s ease;
+  }
+  .del-day:hover{ background:#EBcfC7; }
+
+  .mini-label{
+    font-size:12px;
+    font-weight:600;
+    color:var(--court-green-dark);
+    margin:10px 0 5px;
+    display:block;
+  }
+  .mini-label .hint{ font-weight:400; color:var(--muted); font-size:11px; }
+
+  textarea, input[type=number], input[type=text], input[type=date], select{
     width:100%;
-    padding:16px 52px 16px 16px;
-    border-radius:12px;
+    padding:11px 12px;
+    border-radius:10px;
     border:1.5px solid #DDE6DF;
     font-family:'Be Vietnam Pro', sans-serif;
-    font-size:17px;
+    font-size:14px;
     font-weight:600;
     color:var(--ink);
     background:#fff;
     transition:border-color .15s ease, box-shadow .15s ease;
   }
-  input[type=number]:focus, input[type=text]:focus{
+  textarea{ min-height:60px; resize:vertical; font-weight:500; }
+  textarea:focus, input:focus, select:focus{
     outline:none;
     border-color:var(--court-green);
     box-shadow:0 0 0 3px rgba(31,92,74,0.12);
   }
-  input[type=number]::-webkit-inner-spin-button{
-    opacity:1;
+  .cost-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:8px;
   }
-  .stepper{
-    display:flex;
-    align-items:center;
-    gap:10px;
+  .cost-grid .mini-label{ margin:0 0 4px; }
+
+  .day-breakdown{
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px dashed #E1E9E3;
+    font-size:12px;
+    color:var(--muted);
   }
-  .stepper button{
-    width:38px;
-    height:38px;
-    flex:none;
+  .fixed-field{
+    padding:11px 12px;
     border-radius:10px;
-    border:1.5px solid #DDE6DF;
-    background:#fff;
+    border:1.5px solid #E1E9E3;
+    background:#F1F5F2;
+    color:var(--muted);
+    font-weight:600;
+    font-size:14px;
+  }
+  .perbirdie-note{
+    font-size:13px;
     color:var(--court-green-dark);
-    font-size:18px;
-    font-weight:700;
-    cursor:pointer;
-    transition:background .15s ease, transform .1s ease;
+    font-weight:600;
   }
-  .stepper button:active{ transform:scale(0.92); }
-  .stepper button:hover{ background:#EFF5F1; }
-  .stepper input{
-    text-align:center;
-    padding:16px 14px;
-    font-size:17px;
+  .perbirdie-note b{ color:var(--court-green); }
+  .day-result{
+    margin-top:8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-size:13px;
+    color:var(--muted);
   }
+  .day-result b{
+    font-family:'Oswald',sans-serif;
+    color:var(--court-green-dark);
+    font-size:16px;
+  }
+
+  .add-day-btn{
+    width:100%;
+    padding:13px;
+    border:1.5px dashed var(--court-green);
+    border-radius:12px;
+    background:rgba(31,92,74,0.05);
+    color:var(--court-green-dark);
+    font-family:'Be Vietnam Pro',sans-serif;
+    font-size:14px;font-weight:700;cursor:pointer;
+    transition:background .15s ease;
+  }
+  .add-day-btn:hover{ background:rgba(31,92,74,0.12); }
+
   .divider{
     border:none;
     border-top:1px dashed #DDE6DF;
     margin:22px 0;
   }
-  .result{
+
+  /* ---- Weekly summary ---- */
+  .grand{
     background:linear-gradient(135deg, var(--court-green) 0%, var(--court-green-dark) 100%);
     border-radius:14px;
-    padding:20px 22px;
+    padding:18px 20px;
     color:var(--line-white);
     text-align:center;
-    position:relative;
-    overflow:hidden;
+    margin-bottom:16px;
   }
-  .result .label{
-    font-size:12px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    color:rgba(246,244,236,0.7);
-    font-weight:600;
+  .grand .label{
+    font-size:12px;text-transform:uppercase;letter-spacing:1px;
+    color:rgba(246,244,236,0.7);font-weight:600;
   }
-  .result .amount{
-    font-family:'Oswald', sans-serif;
-    font-size:34px;
-    font-weight:700;
-    margin:6px 0 2px;
-    color:var(--net-gold);
-    letter-spacing:0.5px;
+  .grand .amount{
+    font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;
+    margin:4px 0 2px;color:var(--net-gold);
   }
-  .result .per{
-    font-size:12px;
-    color:rgba(246,244,236,0.65);
-  }
-  .breakdown{
-    margin-top:16px;
+  .grand .per{ font-size:12px;color:rgba(246,244,236,0.65); }
+
+  .sum-row{
     display:flex;
+    align-items:center;
     justify-content:space-between;
-    font-size:12.5px;
-    color:var(--muted);
-    padding-top:12px;
-    border-top:1px solid rgba(255,255,255,0.12);
+    gap:10px;
+    background:#fff;
+    border:1px solid #E1E9E3;
+    border-radius:10px;
+    padding:10px 12px;
+    margin-bottom:8px;
   }
+  .sum-row .who{ display:flex;align-items:center;gap:9px;min-width:0; }
+  .sum-row .idx{
+    width:22px;height:22px;flex:none;border-radius:50%;
+    background:var(--court-green);color:var(--line-white);
+    font-size:11px;display:flex;align-items:center;justify-content:center;
+  }
+  .sum-row .name{ font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+  .sum-row .name small{ display:block;font-weight:400;color:var(--muted);font-size:11px; }
+  .sum-row .right{ display:flex;align-items:center;gap:8px;flex:none; }
+  .sum-row .amt{ font-weight:700;color:var(--court-green-dark); }
+  .qr-btn{
+    border:none;border-radius:8px;
+    background:var(--net-gold);color:var(--court-green-dark);
+    font-size:11px;font-weight:700;cursor:pointer;
+    padding:6px 9px;
+    transition:filter .15s ease;
+  }
+  .qr-btn:hover{ filter:brightness(0.95); }
+  .empty-note{ font-size:12.5px;color:var(--muted);text-align:center;padding:6px 0; }
+  .warn-note{ font-size:12px;color:#B4713F;margin-top:8px; }
+
+  /* ---- QR box ---- */
+  .qr-box{ margin-top:16px;text-align:center; }
+  .qr-card{
+    background:#fff;border:1px solid #DDE6DF;border-radius:16px;
+    padding:16px;display:inline-block;max-width:100%;
+  }
+  .qr-card img{ width:220px;max-width:100%;height:auto;display:block;margin:0 auto; }
+  .qr-amt{ font-family:'Oswald',sans-serif;font-size:19px;font-weight:700;color:var(--court-green-dark);margin-top:10px; }
+  .qr-who{ font-size:13px;font-weight:600;color:var(--ink);margin-top:2px; }
+  .qr-hint{ font-size:12px;color:var(--muted);margin-top:3px; }
+  .qr-placeholder{
+    border:1.5px dashed #C7D6CC;border-radius:14px;
+    padding:22px 16px;font-size:13px;color:var(--muted);background:#fff;
+  }
+  .qr-error{ font-size:12px;color:#B4462F;margin-top:8px; }
+
+  .sum-actions{ display:flex;gap:10px;margin-top:6px; }
+  .act-btn{
+    flex:1;padding:11px;border-radius:10px;border:none;cursor:pointer;
+    font-family:'Be Vietnam Pro',sans-serif;font-size:13px;font-weight:700;
+    transition:filter .15s ease;
+  }
+  .act-btn.copy{ background:var(--court-green);color:var(--line-white); }
+  .act-btn.reset{ background:#F4E3DE;color:#B4462F; }
+  .act-btn:hover{ filter:brightness(0.96); }
+  .act-btn.ghost{ background:#EFF3F0;color:var(--court-green-dark);border:1.5px solid #DDE6DF; }
+  .act-note{ font-size:11.5px;color:var(--muted);margin:5px 2px 0;line-height:1.55; }
+  .act-note b{ color:var(--court-green-dark);font-weight:600; }
+  .round-toggle{
+    display:flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:600;color:var(--court-green-dark);
+    margin:0 2px 14px;cursor:pointer;
+  }
+  .round-toggle input{ width:16px;height:16px;accent-color:var(--court-green);cursor:pointer;flex:none; }
+  .sum-detail{
+    display:none;background:#fff;border:1px solid #E1E9E3;border-top:none;
+    border-radius:0 0 10px 10px;margin:-9px 0 8px;padding:6px 12px 8px;
+  }
+  .sum-detail.open{ display:block; }
+  .det-line{ display:flex;justify-content:space-between;font-size:11px;color:var(--muted);padding:2px 0;gap:10px; }
+  .det-line span:last-child{ flex:none;font-weight:600;color:var(--ink); }
+  .det-day{ font-weight:700;color:var(--court-green-dark);font-size:11.5px;margin:9px 0 2px; }
+  .det-day:first-child{ margin-top:2px; }
+  .det-share{ display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--court-green-dark);border-top:1px dashed #E1E9E3;margin-top:4px;padding-top:4px; }
+  .toast{
+    position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:10px 18px;border-radius:10px;
+    font-size:13px;font-weight:600;opacity:0;pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;z-index:50;
+    box-shadow:0 8px 24px rgba(0,0,0,0.3);
+  }
+  .toast.show{ opacity:1;transform:translateX(-50%) translateY(0); }
+
   footer{
-    text-align:center;
-    font-size:11px;
-    color:rgba(246,244,236,0.4);
-    margin-top:18px;
+    text-align:center;font-size:11px;
+    color:rgba(246,244,236,0.4);margin-top:18px;
   }
 </style>
 </head>
 <body>
   <div class="center-line"></div>
-  <div class="net-line"></div>
 
   <div class="card">
     <div class="header">
       <svg class="shuttle-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M32 40 L20 58" stroke="#F6F4EC" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M32 40 L44 58" stroke="#F6F4EC" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M32 40 L32 60" stroke="#F6F4EC" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="32" cy="59" r="2.2" fill="#E7B84E"/>
-        <circle cx="20" cy="58" r="2.2" fill="#E7B84E"/>
-        <circle cx="44" cy="58" r="2.2" fill="#E7B84E"/>
-        <path d="M32 40 C 18 34, 14 20, 22 8 C 24 20, 30 30, 32 40 Z" fill="#F6F4EC"/>
-        <path d="M32 40 C 24 32, 24 18, 32 6 C 34 18, 36 30, 32 40 Z" fill="#FBF8F1"/>
-        <path d="M32 40 C 46 34, 50 20, 42 8 C 40 20, 34 30, 32 40 Z" fill="#F6F4EC"/>
-        <ellipse cx="32" cy="42" rx="6" ry="5" fill="#C97B3D"/>
+        <path d="M32 40 L20 58" stroke="#F6F4EC" stroke-width="2.5" stroke-linecap="round"></path>
+        <path d="M32 40 L44 58" stroke="#F6F4EC" stroke-width="2.5" stroke-linecap="round"></path>
+        <path d="M32 40 L32 60" stroke="#F6F4EC" stroke-width="2.5" stroke-linecap="round"></path>
+        <circle cx="32" cy="59" r="2.2" fill="#E7B84E"></circle>
+        <circle cx="20" cy="58" r="2.2" fill="#E7B84E"></circle>
+        <circle cx="44" cy="58" r="2.2" fill="#E7B84E"></circle>
+        <path d="M32 40 C 18 34, 14 20, 22 8 C 24 20, 30 30, 32 40 Z" fill="#F6F4EC"></path>
+        <path d="M32 40 C 24 32, 24 18, 32 6 C 34 18, 36 30, 32 40 Z" fill="#FBF8F1"></path>
+        <path d="M32 40 C 46 34, 50 20, 42 8 C 40 20, 34 30, 32 40 Z" fill="#F6F4EC"></path>
+        <ellipse cx="32" cy="42" rx="6" ry="5" fill="#C97B3D"></ellipse>
       </svg>
       <h1>Chia Tiền Cầu Lông</h1>
-      <p class="subtitle">Sân · Cầu · Nước — chia đều, khỏi lăn tăn</p>
+      <p class="subtitle">Nhiều buổi trong tuần · cộng tiền theo từng người</p>
     </div>
 
     <div class="body">
-      <div class="field">
-        <label>Số người chơi <span class="hint">tối thiểu 1</span></label>
-        <div class="stepper">
-          <button type="button" onclick="step(-1)">−</button>
-          <input type="number" id="players" value="10" min="1" oninput="calc()">
-          <button type="button" onclick="step(1)">+</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Tiền sân</label>
-        <div class="input-wrap">
-          <input type="text" inputmode="numeric" id="court" placeholder="0" oninput="formatMoneyInput(this)">
-          <span class="unit">đ</span>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Tiền cầu</label>
-        <div class="input-wrap">
-          <input type="text" inputmode="numeric" id="shuttle" placeholder="0" oninput="formatMoneyInput(this)">
-          <span class="unit">đ</span>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Tiền nước</label>
-        <div class="input-wrap">
-          <input type="text" inputmode="numeric" id="water" placeholder="0" oninput="formatMoneyInput(this)">
-          <span class="unit">đ</span>
-        </div>
-      </div>
+      <span class="mini-label">Tên nhóm / tuần <span class="hint">tùy chọn · hiện lên đầu bảng copy</span></span>
+      <input type="text" id="groupTitle" placeholder="VD: Nhóm cầu lông Thứ 3" oninput="save()">
 
       <hr class="divider">
 
-      <div class="result">
-        <div class="label">Mỗi người trả</div>
-        <div class="amount" id="perPerson">0 đ</div>
-        <div class="per" id="playerCount">chia cho 10 người</div>
-        <div class="breakdown">
-          <span>Tổng chi phí</span>
-          <span id="totalAmount">0 đ</span>
-        </div>
+      <div class="section-title"><span class="dot"></span>Các loại cầu</div>
+
+      <span class="mini-label">Giá theo ống 12 trái</span>
+      <div id="shuttleTypes"><div class="type-row" data-id="1"><input type="text" class="t-name" placeholder="Tên cầu" value="Cầu 1" oninput="onTypeName()">
+     <input type="text" inputmode="numeric" class="t-tube" placeholder="Giá 1 ống" oninput="onMoney(this)">
+     <button type="button" class="del-type" title="Xoá loại cầu" onclick="removeType(this)">×</button>
+     <div class="t-pertrai">0 đ/trái</div></div></div>
+      <button type="button" class="add-type-btn" onclick="addType()">+ Thêm loại cầu</button>
+
+      <hr class="divider">
+
+      <div class="section-title"><span class="dot"></span>Các buổi chơi</div>
+
+      <div id="daysList"><div class="day-card"><div class="day-head">
+       <div class="day-badge">Buổi 1</div>
+       <input type="date" class="day-date" title="Chọn ngày chơi" onchange="save()">
+       <button type="button" class="del-day" title="Xoá buổi" onclick="removeDay(this)">×</button>
+     </div>
+     <span class="mini-label">Tên sân <span class="hint">tùy chọn</span></span>
+     <input type="text" class="c-court-name" placeholder="VD: Sân ABC" oninput="calc()">
+     <span class="mini-label" style="margin-top:10px">Người tham gia <span class="hint">mỗi dòng 1 tên</span></span>
+     <textarea class="day-names" placeholder="An
+Bình
+Chi..." oninput="calc()"></textarea>
+     <div class="cost-grid" style="margin-top:12px">
+       <div><span class="mini-label">Giá sân/giờ</span><input type="text" inputmode="numeric" class="c-rate" placeholder="0" oninput="onMoney(this)"></div>
+       <div><span class="mini-label">Số tiếng</span><input type="number" class="c-hours" min="0" step="0.5" placeholder="0" oninput="calc()"></div>
+       <div><span class="mini-label">Tiền nước</span><input type="text" inputmode="numeric" class="c-water" placeholder="0" oninput="onMoney(this)"></div>
+     </div>
+     <span class="mini-label" style="margin-top:10px">Số trái cầu đã đánh</span>
+     <div class="birdies-box"><div class="bird-item">
+         <span class="bird-label" data-tid="1">Cầu 1</span>
+         <input type="number" class="c-bird" data-tid="1" min="0" placeholder="0" value="" oninput="calc()">
+       </div></div>
+     <div class="day-breakdown"><span class="dr-break">Sân 0 đ · Cầu 0 đ (0 trái) · Nước 0 đ</span></div>
+     <div class="day-result"><span class="dr-count">0 người</span><span>Mỗi người <b class="dr-per">0 đ</b></span></div></div></div>
+
+      <button type="button" class="add-day-btn" onclick="addDay()">+ Thêm buổi chơi</button>
+
+      <hr class="divider">
+
+      <div class="section-title"><span class="dot"></span>Tổng kết tuần</div>
+
+      <div class="grand">
+        <div class="label">Tổng chi cả tuần</div>
+        <div class="amount" id="grandTotal">0 đ</div>
+        <div class="per" id="grandMeta">1 buổi · 0 người</div>
       </div>
+
+      <label class="round-toggle"><input type="checkbox" id="roundOn" onchange="calc()"> Làm tròn tiền về 1.000đ (dễ thu tiền mặt)</label>
+
+      <div id="summaryList"><div class="empty-note">Nhập tên người tham gia ở mỗi buổi để cộng tiền theo từng người.</div></div>
+
+      <div class="sum-actions">
+        <button type="button" class="act-btn copy" onclick="copySummary()">Copy bảng tổng kết</button>
+        <button type="button" class="act-btn reset" onclick="newWeek()">Tuần mới</button>
+      </div>
+      <div class="act-note"><b>Copy bảng tổng kết:</b> chép danh sách ai trả bao nhiêu ra chữ, dán vào Zalo/nhóm.<br><b>Tuần mới:</b> xoá hết các buổi để bắt đầu tuần sau (vẫn giữ loại cầu và tài khoản).</div>
+
+      <div class="sum-actions" style="margin-top:12px">
+        <button type="button" class="act-btn ghost" onclick="exportData()">Xuất file backup</button>
+        <button type="button" class="act-btn ghost" onclick="document.getElementById('importFile').click()">Nhập file</button>
+      </div>
+      <div class="act-note"><b>Xuất file backup:</b> lưu toàn bộ dữ liệu thành 1 file về máy để phòng khi đổi máy/mất dữ liệu.<br><b>Nhập file:</b> mở lại file backup đó để lấy lại toàn bộ dữ liệu.</div>
+      <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="importData(event)">
+
+      <hr class="divider">
+
+      <div class="section-title"><span class="dot"></span>Thu tiền qua QR</div>
+
+      <div class="mini-label">Ngân hàng người thu <span class="hint">tài khoản nhận tiền</span></div>
+      <select id="bank" onchange="refreshQR()"><option value="970436">Vietcombank (VCB)</option><option value="970407">Techcombank (TCB)</option><option value="970422">MB Bank (MB)</option><option value="970415">VietinBank (CTG)</option><option value="970418">BIDV</option><option value="970405">Agribank</option><option value="970416">ACB</option><option value="970432">VPBank</option><option value="970423">TPBank</option><option value="970403">Sacombank (STB)</option><option value="970437">HDBank</option><option value="970441">VIB</option><option value="970443">SHB</option><option value="970448">OCB</option><option value="970426">MSB</option><option value="970468">SeABank</option><option value="970431">Eximbank</option><option value="970449">LPBank</option><option value="970454">BVBank</option><option value="970425">ABBank</option><option value="970428">Nam A Bank</option><option value="970412">PVcomBank</option><option value="970419">NCB</option><option value="546034">Cake by VPBank</option><option value="963388">Timo</option></select>
+
+      <div class="mini-label">Số tài khoản</div>
+      <input type="text" id="accountNo" inputmode="numeric" placeholder="VD: 0123456789" oninput="refreshQR()">
+
+      <div class="mini-label">Tên chủ tài khoản <span class="hint">tùy chọn</span></div>
+      <input type="text" id="accountName" placeholder="NGUYEN VAN A" oninput="refreshQR()">
+
+      <div class="mini-label">Nội dung chuyển khoản</div>
+      <input type="text" id="note" value="Cau long" placeholder="Cau long" oninput="refreshQR()">
+
+      <div class="qr-box" id="qrBox"><div class="qr-placeholder">Nhập số tài khoản để tạo mã QR chuyển tiền.</div></div>
+
+      <footer>Tự lưu trên máy này · QR theo chuẩn VietQR</footer>
     </div>
   </div>
+  <div class="toast" id="toast"></div>
 
 <script>
+// ===== Ngân hàng phổ biến (mã BIN chuẩn NAPAS/VietQR) =====
+const BANKS = [
+  {bin:'970436', name:'Vietcombank (VCB)'},
+  {bin:'970407', name:'Techcombank (TCB)'},
+  {bin:'970422', name:'MB Bank (MB)'},
+  {bin:'970415', name:'VietinBank (CTG)'},
+  {bin:'970418', name:'BIDV'},
+  {bin:'970405', name:'Agribank'},
+  {bin:'970416', name:'ACB'},
+  {bin:'970432', name:'VPBank'},
+  {bin:'970423', name:'TPBank'},
+  {bin:'970403', name:'Sacombank (STB)'},
+  {bin:'970437', name:'HDBank'},
+  {bin:'970441', name:'VIB'},
+  {bin:'970443', name:'SHB'},
+  {bin:'970448', name:'OCB'},
+  {bin:'970426', name:'MSB'},
+  {bin:'970468', name:'SeABank'},
+  {bin:'970431', name:'Eximbank'},
+  {bin:'970449', name:'LPBank'},
+  {bin:'970454', name:'BVBank'},
+  {bin:'970425', name:'ABBank'},
+  {bin:'970428', name:'Nam A Bank'},
+  {bin:'970412', name:'PVcomBank'},
+  {bin:'970419', name:'NCB'},
+  {bin:'546034', name:'Cake by VPBank'},
+  {bin:'963388', name:'Timo'},
+];
+
+let dayCount = 0;
+let summaryData = [];   // [{name, amount, days}]
+let daysDetail  = [];   // chi tiết từng buổi (dùng cho Copy)
+
 function formatVND(n){
   if(isNaN(n)) n = 0;
-  return Math.round(n).toLocaleString('vi-VN') + ' đ';
+  return Math.round(n).toLocaleString('en-US') + ' đ';
+}
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+// Làm tròn về 1.000đ nếu bật tùy chọn
+function roundIf(n){
+  return document.getElementById('roundOn').checked ? Math.round(n / 1000) * 1000 : n;
+}
+// yyyy-mm-dd -> dd/mm/yyyy
+function fmtDate(iso){
+  if(!iso) return '';
+  const a = iso.split('-');
+  return a.length === 3 ? a[2] + '/' + a[1] + '/' + a[0] : iso;
+}
+// Nội dung chi tiết từng buổi cho 1 người (chữ nhỏ)
+function detailHTML(p){
+  return p.detail.map(d => {
+    let head = 'Buổi ' + d.day;
+    if(d.date)      head += ' · ' + fmtDate(d.date);
+    if(d.courtName) head += ' · ' + escapeHtml(d.courtName);
+    let h = '<div class="det-day">' + head + '</div>';
+    h += '<div class="det-line"><span>Giá sân ' + formatVND(d.rate) + '/giờ × ' + d.hours + ' giờ</span><span>' + formatVND(d.court) + '</span></div>';
+    d.shuttleLines.forEach(s => {
+      h += '<div class="det-line"><span>' + escapeHtml(s.name) + ' ' + formatVND(s.perTrai) + ' × ' + s.count + ' trái</span><span>' + formatVND(s.sub) + '</span></div>';
+    });
+    if(d.water > 0) h += '<div class="det-line"><span>Nước</span><span>' + formatVND(d.water) + '</span></div>';
+    h += '<div class="det-share"><span>' + d.count + ' người · phần của ' + escapeHtml(p.name) + '</span><span>' + formatVND(roundIf(d.per)) + '</span></div>';
+    return h;
+  }).join('');
+}
+// Bỏ dấu phẩy để lấy số thật
+function stripNum(v){ return parseFloat(String(v).replace(/,/g,'')) || 0; }
+// Ô tiền: tự chèn dấu phẩy khi gõ (VND không có số lẻ)
+function onMoney(el){
+  const digits = el.value.replace(/[^\d]/g,'');
+  el.value = digits ? parseInt(digits,10).toLocaleString('en-US') : '';
+  calc();
+}
+function getNamesFrom(textarea){
+  return textarea.value.split('\n').map(s => s.trim()).filter(s => s.length > 0);
 }
 
-function parseMoney(v){
-  return parseFloat((v || '').toString().replace(/\./g, '').replace(/,/g, '')) || 0;
-}
-
-function formatMoneyInput(el){
-  const cursorFromEnd = el.value.length - el.selectionStart;
-  const digits = el.value.replace(/\D/g, '');
-  const formatted = digits ? Number(digits).toLocaleString('vi-VN') : '';
-  el.value = formatted;
-  const pos = Math.max(0, el.value.length - cursorFromEnd);
-  el.setSelectionRange(pos, pos);
+// ===== Thêm / xoá buổi =====
+function addDay(label){
+  dayCount++;
+  const card = document.createElement('div');
+  card.className = 'day-card';
+  card.innerHTML =
+    `<div class="day-head">
+       <div class="day-badge">Buổi ${dayCount}</div>
+       <input type="date" class="day-date" title="Chọn ngày chơi" onchange="save()">
+       <button type="button" class="del-day" title="Xoá buổi" onclick="removeDay(this)">×</button>
+     </div>
+     <span class="mini-label">Tên sân <span class="hint">tùy chọn</span></span>
+     <input type="text" class="c-court-name" placeholder="VD: Sân ABC" oninput="calc()">
+     <span class="mini-label" style="margin-top:10px">Người tham gia <span class="hint">mỗi dòng 1 tên</span></span>
+     <textarea class="day-names" placeholder="An&#10;Bình&#10;Chi..." oninput="calc()"></textarea>
+     <div class="cost-grid" style="margin-top:12px">
+       <div><span class="mini-label">Giá sân/giờ</span><input type="text" inputmode="numeric" class="c-rate" placeholder="0" oninput="onMoney(this)"></div>
+       <div><span class="mini-label">Số tiếng</span><input type="number" class="c-hours" min="0" step="0.5" placeholder="0" oninput="calc()"></div>
+       <div><span class="mini-label">Tiền nước</span><input type="text" inputmode="numeric" class="c-water" placeholder="0" oninput="onMoney(this)"></div>
+     </div>
+     <span class="mini-label" style="margin-top:10px">Số trái cầu đã đánh</span>
+     <div class="birdies-box"></div>
+     <div class="day-breakdown"><span class="dr-break">Sân 0 đ · Cầu 0 đ · Nước 0 đ</span></div>
+     <div class="day-result"><span class="dr-count">0 người</span><span>Mỗi người <b class="dr-per">0 đ</b></span></div>`;
+  // Buổi mới tự chép giá sân của buổi gần nhất (đi cùng sân khỏi gõ lại)
+  const existing = document.querySelectorAll('#daysList .day-card');
+  const lastRate = existing.length ? existing[existing.length-1].querySelector('.c-rate').value : '';
+  document.getElementById('daysList').appendChild(card);
+  card.querySelector('.c-rate').value = lastRate;
+  renumberDays();
+  syncBirdies();
   calc();
 }
 
-function step(delta){
-  const el = document.getElementById('players');
-  let v = parseInt(el.value || '0', 10) + delta;
-  if(v < 1) v = 1;
-  el.value = v;
+function renumberDays(){
+  document.querySelectorAll('#daysList .day-card').forEach((c, i) => {
+    c.querySelector('.day-badge').textContent = 'Buổi ' + (i + 1);
+  });
+}
+
+function removeDay(btn){
+  const list = document.getElementById('daysList');
+  if(list.querySelectorAll('.day-card').length <= 1){
+    // Giữ tối thiểu 1 buổi -> chỉ xoá nội dung thay vì bỏ hẳn
+    const card = btn.closest('.day-card');
+    card.querySelector('.day-names').value = '';
+    card.querySelectorAll('.cost-grid input').forEach(i => i.value = '');
+    card.querySelectorAll('.c-bird').forEach(i => i.value = '');
+    card.querySelector('.day-date').value = '';
+    calc();
+    return;
+  }
+  btn.closest('.day-card').remove();
+  renumberDays();
   calc();
 }
 
+// ===== Loại cầu =====
+let typeCount = 0;
+
+function addType(name){
+  typeCount++;
+  const row = document.createElement('div');
+  row.className = 'type-row';
+  row.dataset.id = typeCount;
+  row.innerHTML =
+    `<input type="text" class="t-name" placeholder="Tên cầu" value="${name || ('Cầu ' + typeCount)}" oninput="onTypeName()">
+     <input type="text" inputmode="numeric" class="t-tube" placeholder="Giá 1 ống" oninput="onMoney(this)">
+     <button type="button" class="del-type" title="Xoá loại cầu" onclick="removeType(this)">×</button>
+     <div class="t-pertrai">0 đ/trái</div>`;
+  document.getElementById('shuttleTypes').appendChild(row);
+  syncBirdies();
+  calc();
+}
+
+function removeType(btn){
+  const box = document.getElementById('shuttleTypes');
+  if(box.querySelectorAll('.type-row').length <= 1){
+    const row = btn.closest('.type-row');
+    row.querySelector('.t-name').value = 'Cầu 1';
+    row.querySelector('.t-tube').value = '';
+    onTypeName(); syncBirdies(); calc();
+    return;
+  }
+  btn.closest('.type-row').remove();
+  syncBirdies();
+  calc();
+}
+
+function getTypes(){
+  return Array.from(document.querySelectorAll('#shuttleTypes .type-row')).map(r => ({
+    id:   r.dataset.id,
+    name: r.querySelector('.t-name').value.trim() || 'Cầu',
+    tube: stripNum(r.querySelector('.t-tube').value)
+  }));
+}
+
+// Đổi tên loại cầu -> cập nhật nhãn trong các buổi (không rebuild để khỏi mất focus)
+function onTypeName(){
+  document.querySelectorAll('#shuttleTypes .type-row').forEach(r => {
+    const id = r.dataset.id;
+    const nm = r.querySelector('.t-name').value.trim() || 'Cầu';
+    document.querySelectorAll('.bird-label[data-tid="' + id + '"]').forEach(l => l.textContent = nm);
+  });
+  calc();
+}
+
+// Đảm bảo mỗi buổi có 1 ô nhập số trái cho từng loại cầu (giữ lại số đã nhập)
+function syncBirdies(){
+  const types = getTypes();
+  document.querySelectorAll('.day-card .birdies-box').forEach(box => {
+    const prev = {};
+    box.querySelectorAll('.c-bird').forEach(i => prev[i.dataset.tid] = i.value);
+    box.innerHTML = types.map(t =>
+      `<div class="bird-item">
+         <span class="bird-label" data-tid="${t.id}">${escapeHtml(t.name)}</span>
+         <input type="number" class="c-bird" data-tid="${t.id}" min="0" placeholder="0" value="${prev[t.id] || ''}" oninput="calc()">
+       </div>`
+    ).join('');
+  });
+}
+
+// ===== Tính toán =====
 function calc(){
-  const players = Math.max(1, parseInt(document.getElementById('players').value) || 1);
-  const court = parseMoney(document.getElementById('court').value);
-  const shuttle = parseMoney(document.getElementById('shuttle').value);
-  const water = parseMoney(document.getElementById('water').value);
+  // ===== Đơn giá chung =====
+  // Giá mỗi trái theo từng loại cầu (ống 12 trái) + cập nhật hiển thị
+  const types = getTypes();
+  const perTrai = {}, typeName = {};
+  types.forEach(t => {
+    perTrai[t.id] = t.tube / 12;
+    typeName[t.id] = t.name;
+    const cell = document.querySelector('#shuttleTypes .type-row[data-id="' + t.id + '"] .t-pertrai');
+    if(cell) cell.textContent = formatVND(t.tube / 12) + '/trái';
+  });
 
-  const total = court + shuttle + water;
-  const per = total / players;
+  const cards = document.querySelectorAll('.day-card');
+  const totals = {};       // name -> {amount, days}
+  const order = [];        // giữ thứ tự xuất hiện của tên
+  let grandTotal = 0;
+  let daysWithoutNames = 0;
+  daysDetail = [];
 
-  document.getElementById('perPerson').textContent = formatVND(per);
-  document.getElementById('totalAmount').textContent = formatVND(total);
-  document.getElementById('playerCount').textContent = 'chia cho ' + players + ' người';
+  cards.forEach((card, di) => {
+    const rawNames  = getNamesFrom(card.querySelector('.day-names'));
+    const date      = card.querySelector('.day-date').value;
+    const courtName = card.querySelector('.c-court-name').value.trim();
+    const rate      = stripNum(card.querySelector('.c-rate').value);   // đ / giờ (theo sân của buổi)
+    const hours     = parseFloat(card.querySelector('.c-hours').value) || 0;
+    const water     = stripNum(card.querySelector('.c-water').value);
+
+    // Tiền cầu = tổng theo từng loại (giá/trái × số trái)
+    let shuttle = 0, birdies = 0;
+    const shuttleLines = [];
+    card.querySelectorAll('.c-bird').forEach(inp => {
+      const n = parseFloat(inp.value) || 0;
+      const pt = perTrai[inp.dataset.tid] || 0;
+      shuttle  += pt * n;
+      birdies  += n;
+      if(n > 0) shuttleLines.push({name: typeName[inp.dataset.tid] || 'Cầu', count: n, perTrai: pt, sub: pt * n});
+    });
+
+    const court    = rate * hours;
+    const dayTotal = court + shuttle + water;
+    grandTotal += dayTotal;
+
+    // Gộp tên: bỏ khoảng trắng thừa, không phân biệt hoa/thường, loại trùng trong cùng buổi
+    const seen = new Set();
+    const dayPeople = [];
+    rawNames.forEach(raw => {
+      const disp = raw.replace(/\s+/g, ' ').trim();
+      const key = disp.toLowerCase();
+      if(!key || seen.has(key)) return;
+      seen.add(key);
+      dayPeople.push({key, disp});
+    });
+    const count = dayPeople.length;
+    const per = count > 0 ? dayTotal / count : 0;
+
+    // cập nhật dòng kết quả của buổi
+    card.querySelector('.dr-break').textContent =
+      `Sân ${formatVND(court)} · Cầu ${formatVND(shuttle)} (${birdies} trái) · Nước ${formatVND(water)}`;
+    card.querySelector('.dr-count').textContent = count + ' người';
+    card.querySelector('.dr-per').textContent = formatVND(roundIf(per));
+
+    if(count === 0 && dayTotal > 0) daysWithoutNames++;
+
+    daysDetail.push({day: di + 1, date, courtName, rate, hours, court, shuttleLines, water, dayTotal, count, per});
+
+    dayPeople.forEach(pp => {
+      if(!totals[pp.key]){ totals[pp.key] = {name: pp.disp, amount:0, days:0, detail:[]}; order.push(pp.key); }
+      totals[pp.key].amount += per;
+      totals[pp.key].days++;
+      totals[pp.key].detail.push({day: di + 1, date, courtName, rate, hours, court, water, shuttleLines, count, per});
+    });
+  });
+
+  // grand
+  document.getElementById('grandTotal').textContent = formatVND(grandTotal);
+  document.getElementById('grandMeta').textContent =
+    cards.length + ' buổi · ' + order.length + ' người';
+
+  // bảng theo người
+  summaryData = order.map(k => ({name: totals[k].name, amount: totals[k].amount, days: totals[k].days, detail: totals[k].detail}));
+  summaryData.sort((a, b) => b.amount - a.amount);   // tiền cao -> thấp
+  const listEl = document.getElementById('summaryList');
+  if(summaryData.length === 0){
+    listEl.innerHTML = '<div class="empty-note">Nhập tên người tham gia ở mỗi buổi để cộng tiền theo từng người.</div>';
+  } else {
+    listEl.innerHTML = summaryData.map((p, i) =>
+      `<div class="sum-row" onclick="toggleDetail(${i})">
+         <div class="who">
+           <span class="idx">${i+1}</span>
+           <span class="name">${escapeHtml(p.name)}<small>${p.days} buổi · bấm xem chi tiết</small></span>
+         </div>
+         <div class="right">
+           <span class="amt">${formatVND(roundIf(p.amount))}</span>
+         </div>
+       </div>
+       <div class="sum-detail" id="detail-${i}">${detailHTML(p)}</div>`
+    ).join('');
+    if(daysWithoutNames > 0){
+      listEl.innerHTML += `<div class="warn-note">⚠ Có ${daysWithoutNames} buổi có chi phí nhưng chưa nhập tên — chưa cộng được vào người nào.</div>`;
+    }
+  }
+
+  save();
 }
 
-calc();
+// ===== QR =====
+function initBanks(){
+  document.getElementById('bank').innerHTML =
+    BANKS.map(b => `<option value="${b.bin}">${b.name}</option>`).join('');
+}
+function renderQR(){
+  const sel = document.getElementById('bank');
+  const bin = sel.value;
+  const bankName = sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
+  const acc = document.getElementById('accountNo').value.trim();
+  const accName = document.getElementById('accountName').value.trim();
+  const note = (document.getElementById('note').value.trim() || 'Cau long');
+  const box = document.getElementById('qrBox');
+
+  if(!acc){
+    box.innerHTML = '<div class="qr-placeholder">Nhập số tài khoản để tạo mã QR chuyển tiền.</div>';
+    return;
+  }
+
+  let url = `https://img.vietqr.io/image/${bin}-${encodeURIComponent(acc)}-compact2.png?addInfo=${encodeURIComponent(note)}`;
+  if(accName) url += `&accountName=${encodeURIComponent(accName)}`;
+
+  box.innerHTML =
+    `<div class="qr-card">
+       <img src="${url}" alt="QR chuyển khoản"
+            onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div class=&quot;qr-error&quot;>Không tải được mã QR — cần có mạng.</div>');">
+       <div class="qr-amt">Quét để chuyển khoản</div>
+       <div class="qr-hint">${bankName} · ${escapeHtml(acc)}</div>
+       <div class="qr-hint">Mỗi người tự nhập số tiền theo bảng ở trên</div>
+     </div>`;
+}
+
+function refreshQR(){ renderQR(); save(); }
+
+// ===== Lưu / khôi phục (localStorage) =====
+const STORE_KEY = 'chiatiencaulong_v1';
+
+function buildState(){
+  const types = Array.from(document.querySelectorAll('#shuttleTypes .type-row')).map(r => ({
+    name: r.querySelector('.t-name').value,
+    tube: r.querySelector('.t-tube').value
+  }));
+  const days = Array.from(document.querySelectorAll('#daysList .day-card')).map(card => ({
+    date:  card.querySelector('.day-date').value,
+    court: card.querySelector('.c-court-name').value,
+    names: card.querySelector('.day-names').value,
+    rate:  card.querySelector('.c-rate').value,
+    hours: card.querySelector('.c-hours').value,
+    water: card.querySelector('.c-water').value,
+    birds: Array.from(card.querySelectorAll('.c-bird')).map(i => i.value)
+  }));
+  const bank = {
+    bin:     document.getElementById('bank').value,
+    acc:     document.getElementById('accountNo').value,
+    accName: document.getElementById('accountName').value,
+    note:    document.getElementById('note').value
+  };
+  return {types, days, bank, title: document.getElementById('groupTitle').value, roundOn: document.getElementById('roundOn').checked};
+}
+
+function save(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(buildState())); }
+  catch(e){ /* localStorage không dùng được -> chạy bình thường, chỉ không lưu */ }
+}
+
+function exportData(){
+  const blob = new Blob([JSON.stringify(buildState(), null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'chiatiencaulong-backup.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  toast('Đã xuất file backup');
+}
+
+function importData(ev){
+  const file = ev.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      restore(JSON.parse(reader.result));
+      save();
+      toast('Đã nhập file backup');
+    }catch(e){ toast('File không hợp lệ'); }
+  };
+  reader.readAsText(file);
+  ev.target.value = '';   // cho phép nhập lại cùng 1 file
+}
+
+function toggleDetail(i){
+  const el = document.getElementById('detail-' + i);
+  if(el) el.classList.toggle('open');
+}
+
+function load(){
+  try{ return JSON.parse(localStorage.getItem(STORE_KEY)); }catch(e){ return null; }
+}
+
+function restore(data){
+  document.getElementById('shuttleTypes').innerHTML = '';
+  typeCount = 0;
+  const types = (data.types && data.types.length) ? data.types : [{name:'Cầu 1', tube:''}];
+  types.forEach(t => {
+    addType(t.name);
+    document.querySelector('#shuttleTypes .type-row:last-child .t-tube').value = t.tube || '';
+  });
+
+  document.getElementById('daysList').innerHTML = '';
+  dayCount = 0;
+  const days = (data.days && data.days.length) ? data.days : [null];
+  days.forEach(d => {
+    addDay();
+    if(!d) return;
+    const card = document.querySelector('#daysList .day-card:last-child');
+    card.querySelector('.day-date').value       = d.date  || '';
+    card.querySelector('.c-court-name').value   = d.court || '';
+    card.querySelector('.day-names').value       = d.names || '';
+    card.querySelector('.c-rate').value    = d.rate  || '';
+    card.querySelector('.c-hours').value   = d.hours || '';
+    card.querySelector('.c-water').value   = d.water || '';
+    const binds = card.querySelectorAll('.c-bird');
+    (d.birds || []).forEach((v, i) => { if(binds[i]) binds[i].value = v; });
+  });
+
+  if(data.bank){
+    if(data.bank.bin) document.getElementById('bank').value = data.bank.bin;
+    document.getElementById('accountNo').value   = data.bank.acc     || '';
+    document.getElementById('accountName').value = data.bank.accName || '';
+    if(data.bank.note !== undefined) document.getElementById('note').value = data.bank.note;
+  }
+  document.getElementById('groupTitle').value = data.title || '';
+  document.getElementById('roundOn').checked = !!data.roundOn;
+  renumberDays();
+  calc();
+  renderQR();
+}
+
+// ===== Toast · Copy · Tuần mới =====
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => el.classList.remove('show'), 1800);
+}
+
+function copySummary(){
+  if(!summaryData.length && !daysDetail.length){ toast('Chưa có gì để copy'); return; }
+  const L = [];
+  const title = document.getElementById('groupTitle').value.trim();
+  if(title) L.push(title);
+  L.push('CHIA TIỀN CẦU LÔNG');
+  L.push('Tổng tuần: ' + document.getElementById('grandTotal').textContent
+         + ' (' + document.getElementById('grandMeta').textContent + ')');
+  L.push('');
+  daysDetail.forEach(d => {
+    let head = 'BUỔI ' + d.day;
+    if(d.date)      head += ' · ' + fmtDate(d.date);
+    if(d.courtName) head += ' · ' + d.courtName;
+    L.push(head);
+    L.push('  Sân: ' + formatVND(d.rate) + '/giờ × ' + d.hours + ' giờ = ' + formatVND(d.court));
+    d.shuttleLines.forEach(s =>
+      L.push('  ' + s.name + ': ' + formatVND(s.perTrai) + ' × ' + s.count + ' trái = ' + formatVND(s.sub)));
+    if(d.water > 0) L.push('  Nước: ' + formatVND(d.water));
+    L.push('  Tổng buổi: ' + formatVND(d.dayTotal) + ' ÷ ' + d.count + ' người = ' + formatVND(roundIf(d.per)) + '/người');
+    L.push('');
+  });
+  L.push('MỖI NGƯỜI TRẢ:');
+  summaryData.forEach(p => L.push('- ' + p.name + ': ' + formatVND(roundIf(p.amount)) + ' (' + p.days + ' buổi)'));
+  const text = L.join('\n');
+  const done = () => toast('Đã copy bảng tổng kết!');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+function fallbackCopy(text, done){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); done(); }catch(e){ toast('Không copy được'); }
+  ta.remove();
+}
+
+function newWeek(){
+  if(!confirm('Xóa hết các buổi để bắt đầu tuần mới? (Loại cầu và tài khoản vẫn được giữ)')) return;
+  document.getElementById('daysList').innerHTML = '';
+  dayCount = 0;
+  addDay();
+  calc();
+  renderQR();
+  toast('Đã tạo tuần mới');
+}
+
+// ===== Khởi tạo =====
+initBanks();
+const saved = load();
+if(saved && ((saved.days && saved.days.length) || (saved.types && saved.types.length))){
+  restore(saved);
+} else {
+  addType('Cầu 1');  // tạo sẵn 1 loại cầu
+  addDay();          // tạo sẵn buổi đầu tiên
+}
+renderQR();
 </script>
-</body>
-</html>
+
+
+</body></html>
