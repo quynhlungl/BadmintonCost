@@ -1,9 +1,11 @@
-<html lang="vi"><head>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chia Tiền Cầu Lông</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&amp;family=Oswald:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --court-green: #1F5C4A;
@@ -327,6 +329,11 @@
   .warn-note{ font-size:12px;color:#B4713F;margin-top:8px; }
 
   /* ---- QR box ---- */
+  .bank-fixed{
+    background:#fff;border:1px solid #E1E9E3;border-radius:10px;
+    padding:11px 13px;font-size:13px;color:var(--ink);line-height:1.7;
+  }
+  .bank-fixed b{ color:var(--court-green-dark); }
   .qr-box{ margin-top:16px;text-align:center; }
   .qr-card{
     background:#fff;border:1px solid #DDE6DF;border-radius:16px;
@@ -391,16 +398,16 @@
   <div class="card">
     <div class="header">
       <svg class="shuttle-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M32 40 L20 58" stroke="#F6F4EC" stroke-width="2.5" stroke-linecap="round"></path>
-        <path d="M32 40 L44 58" stroke="#F6F4EC" stroke-width="2.5" stroke-linecap="round"></path>
-        <path d="M32 40 L32 60" stroke="#F6F4EC" stroke-width="2.5" stroke-linecap="round"></path>
-        <circle cx="32" cy="59" r="2.2" fill="#E7B84E"></circle>
-        <circle cx="20" cy="58" r="2.2" fill="#E7B84E"></circle>
-        <circle cx="44" cy="58" r="2.2" fill="#E7B84E"></circle>
-        <path d="M32 40 C 18 34, 14 20, 22 8 C 24 20, 30 30, 32 40 Z" fill="#F6F4EC"></path>
-        <path d="M32 40 C 24 32, 24 18, 32 6 C 34 18, 36 30, 32 40 Z" fill="#FBF8F1"></path>
-        <path d="M32 40 C 46 34, 50 20, 42 8 C 40 20, 34 30, 32 40 Z" fill="#F6F4EC"></path>
-        <ellipse cx="32" cy="42" rx="6" ry="5" fill="#C97B3D"></ellipse>
+        <path d="M32 40 L20 58" stroke="#F6F4EC" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M32 40 L44 58" stroke="#F6F4EC" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M32 40 L32 60" stroke="#F6F4EC" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="32" cy="59" r="2.2" fill="#E7B84E"/>
+        <circle cx="20" cy="58" r="2.2" fill="#E7B84E"/>
+        <circle cx="44" cy="58" r="2.2" fill="#E7B84E"/>
+        <path d="M32 40 C 18 34, 14 20, 22 8 C 24 20, 30 30, 32 40 Z" fill="#F6F4EC"/>
+        <path d="M32 40 C 24 32, 24 18, 32 6 C 34 18, 36 30, 32 40 Z" fill="#FBF8F1"/>
+        <path d="M32 40 C 46 34, 50 20, 42 8 C 40 20, 34 30, 32 40 Z" fill="#F6F4EC"/>
+        <ellipse cx="32" cy="42" rx="6" ry="5" fill="#C97B3D"/>
       </svg>
       <h1>Chia Tiền Cầu Lông</h1>
       <p class="subtitle">Nhiều buổi trong tuần · cộng tiền theo từng người</p>
@@ -415,39 +422,14 @@
       <div class="section-title"><span class="dot"></span>Các loại cầu</div>
 
       <span class="mini-label">Giá theo ống 12 trái</span>
-      <div id="shuttleTypes"><div class="type-row" data-id="1"><input type="text" class="t-name" placeholder="Tên cầu" value="Cầu 1" oninput="onTypeName()">
-     <input type="text" inputmode="numeric" class="t-tube" placeholder="Giá 1 ống" oninput="onMoney(this)">
-     <button type="button" class="del-type" title="Xoá loại cầu" onclick="removeType(this)">×</button>
-     <div class="t-pertrai">0 đ/trái</div></div></div>
+      <div id="shuttleTypes"></div>
       <button type="button" class="add-type-btn" onclick="addType()">+ Thêm loại cầu</button>
 
       <hr class="divider">
 
       <div class="section-title"><span class="dot"></span>Các buổi chơi</div>
 
-      <div id="daysList"><div class="day-card"><div class="day-head">
-       <div class="day-badge">Buổi 1</div>
-       <input type="date" class="day-date" title="Chọn ngày chơi" onchange="save()">
-       <button type="button" class="del-day" title="Xoá buổi" onclick="removeDay(this)">×</button>
-     </div>
-     <span class="mini-label">Tên sân <span class="hint">tùy chọn</span></span>
-     <input type="text" class="c-court-name" placeholder="VD: Sân ABC" oninput="calc()">
-     <span class="mini-label" style="margin-top:10px">Người tham gia <span class="hint">mỗi dòng 1 tên</span></span>
-     <textarea class="day-names" placeholder="An
-Bình
-Chi..." oninput="calc()"></textarea>
-     <div class="cost-grid" style="margin-top:12px">
-       <div><span class="mini-label">Giá sân/giờ</span><input type="text" inputmode="numeric" class="c-rate" placeholder="0" oninput="onMoney(this)"></div>
-       <div><span class="mini-label">Số tiếng</span><input type="number" class="c-hours" min="0" step="0.5" placeholder="0" oninput="calc()"></div>
-       <div><span class="mini-label">Tiền nước</span><input type="text" inputmode="numeric" class="c-water" placeholder="0" oninput="onMoney(this)"></div>
-     </div>
-     <span class="mini-label" style="margin-top:10px">Số trái cầu đã đánh</span>
-     <div class="birdies-box"><div class="bird-item">
-         <span class="bird-label" data-tid="1">Cầu 1</span>
-         <input type="number" class="c-bird" data-tid="1" min="0" placeholder="0" value="" oninput="calc()">
-       </div></div>
-     <div class="day-breakdown"><span class="dr-break">Sân 0 đ · Cầu 0 đ (0 trái) · Nước 0 đ</span></div>
-     <div class="day-result"><span class="dr-count">0 người</span><span>Mỗi người <b class="dr-per">0 đ</b></span></div></div></div>
+      <div id="daysList"></div>
 
       <button type="button" class="add-day-btn" onclick="addDay()">+ Thêm buổi chơi</button>
 
@@ -458,12 +440,12 @@ Chi..." oninput="calc()"></textarea>
       <div class="grand">
         <div class="label">Tổng chi cả tuần</div>
         <div class="amount" id="grandTotal">0 đ</div>
-        <div class="per" id="grandMeta">1 buổi · 0 người</div>
+        <div class="per" id="grandMeta">0 buổi</div>
       </div>
 
       <label class="round-toggle"><input type="checkbox" id="roundOn" onchange="calc()"> Làm tròn tiền về 1.000đ (dễ thu tiền mặt)</label>
 
-      <div id="summaryList"><div class="empty-note">Nhập tên người tham gia ở mỗi buổi để cộng tiền theo từng người.</div></div>
+      <div id="summaryList"></div>
 
       <div class="sum-actions">
         <button type="button" class="act-btn copy" onclick="copySummary()">Copy bảng tổng kết</button>
@@ -482,19 +464,14 @@ Chi..." oninput="calc()"></textarea>
 
       <div class="section-title"><span class="dot"></span>Thu tiền qua QR</div>
 
-      <div class="mini-label">Ngân hàng người thu <span class="hint">tài khoản nhận tiền</span></div>
-      <select id="bank" onchange="refreshQR()"><option value="970436">Vietcombank (VCB)</option><option value="970407">Techcombank (TCB)</option><option value="970422">MB Bank (MB)</option><option value="970415">VietinBank (CTG)</option><option value="970418">BIDV</option><option value="970405">Agribank</option><option value="970416">ACB</option><option value="970432">VPBank</option><option value="970423">TPBank</option><option value="970403">Sacombank (STB)</option><option value="970437">HDBank</option><option value="970441">VIB</option><option value="970443">SHB</option><option value="970448">OCB</option><option value="970426">MSB</option><option value="970468">SeABank</option><option value="970431">Eximbank</option><option value="970449">LPBank</option><option value="970454">BVBank</option><option value="970425">ABBank</option><option value="970428">Nam A Bank</option><option value="970412">PVcomBank</option><option value="970419">NCB</option><option value="546034">Cake by VPBank</option><option value="963388">Timo</option></select>
+      <div class="bank-fixed">
+        <div><b>Vietcombank</b> · PGD Cách Mạng Tháng Tám</div>
+        <div>Chủ TK: <b>NGUYEN THI XUAN QUYNH</b></div>
+        <div>Số TK: <b>1027635021</b></div>
+      </div>
 
-      <div class="mini-label">Số tài khoản</div>
-      <input type="text" id="accountNo" inputmode="numeric" placeholder="VD: 0123456789" oninput="refreshQR()">
-
-      <div class="mini-label">Tên chủ tài khoản <span class="hint">tùy chọn</span></div>
-      <input type="text" id="accountName" placeholder="NGUYEN VAN A" oninput="refreshQR()">
-
-      <div class="mini-label">Nội dung chuyển khoản</div>
-      <input type="text" id="note" value="Cau long" placeholder="Cau long" oninput="refreshQR()">
-
-      <div class="qr-box" id="qrBox"><div class="qr-placeholder">Nhập số tài khoản để tạo mã QR chuyển tiền.</div></div>
+      <div class="qr-box" id="qrBox"></div>
+      <button type="button" class="act-btn copy" style="margin-top:12px" onclick="shareQR()">Chia sẻ / lưu ảnh QR</button>
 
       <footer>Tự lưu trên máy này · QR theo chuẩn VietQR</footer>
     </div>
@@ -530,6 +507,14 @@ const BANKS = [
   {bin:'546034', name:'Cake by VPBank'},
   {bin:'963388', name:'Timo'},
 ];
+
+// Tài khoản nhận tiền (cố định)
+const BANK_BIN    = '970436';               // Vietcombank
+const BANK_NAME   = 'Vietcombank';
+const BANK_BRANCH = 'PGD Cách Mạng Tháng Tám';
+const BANK_HOLDER = 'NGUYEN THI XUAN QUYNH';
+const BANK_ACC    = '1027635021';
+const BANK_NOTE   = 'Cau long';
 
 let dayCount = 0;
 let summaryData = [];   // [{name, amount, days}]
@@ -811,38 +796,46 @@ function calc(){
 }
 
 // ===== QR =====
-function initBanks(){
-  document.getElementById('bank').innerHTML =
-    BANKS.map(b => `<option value="${b.bin}">${b.name}</option>`).join('');
+function qrImageUrl(){
+  return 'https://img.vietqr.io/image/' + BANK_BIN + '-' + BANK_ACC + '-compact2.png'
+       + '?addInfo=' + encodeURIComponent(BANK_NOTE)
+       + '&accountName=' + encodeURIComponent(BANK_HOLDER);
 }
-function renderQR(){
-  const sel = document.getElementById('bank');
-  const bin = sel.value;
-  const bankName = sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
-  const acc = document.getElementById('accountNo').value.trim();
-  const accName = document.getElementById('accountName').value.trim();
-  const note = (document.getElementById('note').value.trim() || 'Cau long');
-  const box = document.getElementById('qrBox');
 
-  if(!acc){
-    box.innerHTML = '<div class="qr-placeholder">Nhập số tài khoản để tạo mã QR chuyển tiền.</div>';
-    return;
+// Gửi/lưu ảnh QR: ưu tiên chia sẻ ảnh thẳng qua Zalo, không được thì tải về, không nữa thì mở ảnh
+async function shareQR(){
+  const url = qrImageUrl();
+  try{
+    const res = await fetch(url);
+    const blob = await res.blob();
+    const file = new File([blob], 'qr-chuyen-khoan.png', {type: blob.type || 'image/png'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({files:[file], title:'QR chuyển khoản cầu lông', text:'Quét mã để chuyển khoản'});
+      return;
+    }
+    const obj = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = obj; a.download = 'qr-chuyen-khoan.png';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(obj);
+    toast('Đã tải ảnh QR về máy');
+  }catch(e){
+    window.open(url, '_blank');
+    toast('Mở ảnh QR — giữ để lưu về máy');
   }
+}
 
-  let url = `https://img.vietqr.io/image/${bin}-${encodeURIComponent(acc)}-compact2.png?addInfo=${encodeURIComponent(note)}`;
-  if(accName) url += `&accountName=${encodeURIComponent(accName)}`;
-
-  box.innerHTML =
+function renderQR(){
+  const url = qrImageUrl();
+  document.getElementById('qrBox').innerHTML =
     `<div class="qr-card">
        <img src="${url}" alt="QR chuyển khoản"
             onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div class=&quot;qr-error&quot;>Không tải được mã QR — cần có mạng.</div>');">
        <div class="qr-amt">Quét để chuyển khoản</div>
-       <div class="qr-hint">${bankName} · ${escapeHtml(acc)}</div>
+       <div class="qr-hint">${BANK_NAME} · ${BANK_ACC}</div>
        <div class="qr-hint">Mỗi người tự nhập số tiền theo bảng ở trên</div>
      </div>`;
 }
-
-function refreshQR(){ renderQR(); save(); }
 
 // ===== Lưu / khôi phục (localStorage) =====
 const STORE_KEY = 'chiatiencaulong_v1';
@@ -861,13 +854,7 @@ function buildState(){
     water: card.querySelector('.c-water').value,
     birds: Array.from(card.querySelectorAll('.c-bird')).map(i => i.value)
   }));
-  const bank = {
-    bin:     document.getElementById('bank').value,
-    acc:     document.getElementById('accountNo').value,
-    accName: document.getElementById('accountName').value,
-    note:    document.getElementById('note').value
-  };
-  return {types, days, bank, title: document.getElementById('groupTitle').value, roundOn: document.getElementById('roundOn').checked};
+  return {types, days, title: document.getElementById('groupTitle').value, roundOn: document.getElementById('roundOn').checked};
 }
 
 function save(){
@@ -935,12 +922,6 @@ function restore(data){
     (d.birds || []).forEach((v, i) => { if(binds[i]) binds[i].value = v; });
   });
 
-  if(data.bank){
-    if(data.bank.bin) document.getElementById('bank').value = data.bank.bin;
-    document.getElementById('accountNo').value   = data.bank.acc     || '';
-    document.getElementById('accountName').value = data.bank.accName || '';
-    if(data.bank.note !== undefined) document.getElementById('note').value = data.bank.note;
-  }
   document.getElementById('groupTitle').value = data.title || '';
   document.getElementById('roundOn').checked = !!data.roundOn;
   renumberDays();
@@ -980,6 +961,15 @@ function copySummary(){
   });
   L.push('MỖI NGƯỜI TRẢ:');
   summaryData.forEach(p => L.push('- ' + p.name + ': ' + formatVND(roundIf(p.amount)) + ' (' + p.days + ' buổi)'));
+
+  L.push('');
+  L.push('CHUYỂN KHOẢN (mỗi người chuyển đúng số tiền của mình ở trên):');
+  L.push('- Ngân hàng: ' + BANK_NAME + ' · ' + BANK_BRANCH);
+  L.push('- Chủ TK: ' + BANK_HOLDER);
+  L.push('- Số TK: ' + BANK_ACC);
+  L.push('- Nội dung: ' + BANK_NOTE);
+  L.push('- Mã QR (bấm vào để mở, rồi lưu ảnh gửi nhóm): ' + qrImageUrl());
+
   const text = L.join('\n');
   const done = () => toast('Đã copy bảng tổng kết!');
   if(navigator.clipboard && navigator.clipboard.writeText){
@@ -1007,7 +997,6 @@ function newWeek(){
 }
 
 // ===== Khởi tạo =====
-initBanks();
 const saved = load();
 if(saved && ((saved.days && saved.days.length) || (saved.types && saved.types.length))){
   restore(saved);
@@ -1017,6 +1006,5 @@ if(saved && ((saved.days && saved.days.length) || (saved.types && saved.types.le
 }
 renderQR();
 </script>
-
-
-</body></html>
+</body>
+</html>
